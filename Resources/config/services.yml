@@ -1,0 +1,22 @@
+services:
+    bpa_sandbox.controller_listener:
+        class: 'Bpa\ApiSandboxBundle\EventListener\SandboxControllerListener'
+        arguments:
+            - '@bpa_sandbox.controller_service'
+            - '@request_stack'
+        tags:
+            - { name: 'kernel.event_listener', event: 'kernel.controller', method: 'onKernelController' }
+
+    bpa_sandbox.controller_service:
+        class: 'Bpa\ApiSandboxBundle\Service\ControllerService'
+        arguments:
+            - '@request_stack'
+            - '@annotations.reader'
+            - '@event_dispatcher'
+            - '@file_locator'
+            - '%api_sandbox.response.force'
+
+    bpa_sandbox.apidoc_listener:
+        class: 'Bpa\ApiSandboxBundle\EventListener\ApiDocListener'
+        tags:
+            - { name: 'kernel.event_listener', event: 'annotations.loaded', method: 'onAnnotationsLoaded' }
