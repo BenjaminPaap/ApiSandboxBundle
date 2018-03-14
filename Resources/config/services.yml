@@ -1,23 +1,36 @@
+parameters:
+    bpa_apisandbox_controller_listener_class: 'Bpa\ApiSandboxBundle\EventListener\SandboxControllerListener'
+    bpa_apisandbox_controller_service_class: 'Bpa\ApiSandboxBundle\Service\ControllerService'
+    bpa_apisandbox_apidoc_listener_class: 'Bpa\ApiSandboxBundle\EventListener\ApiDocListener'
+    bpa_apisandbox_example_generator_class: 'Bpa\ApiSandboxBundle\Service\ApiDoc\Extractor\ExampleGenerator'
+
 services:
-    bpa_sandbox.controller_listener:
-        class: 'Bpa\ApiSandboxBundle\EventListener\SandboxControllerListener'
+    bpa_apisandbox.controller_listener:
+        class: %bpa_apisandbox_controller_listener_class%
         arguments:
             - '%bpa_apisandbox.enabled%'
-            - '@bpa_sandbox.controller_service'
+            - '@bpa_apisandbox.controller_service'
             - '@request_stack'
         tags:
             - { name: 'kernel.event_listener', event: 'kernel.controller', method: 'onKernelController' }
 
-    bpa_sandbox.controller_service:
-        class: 'Bpa\ApiSandboxBundle\Service\ControllerService'
+    bpa_apisandbox.controller_service:
+        class: %bpa_apisandbox_controller_service_class%
         arguments:
             - '@request_stack'
             - '@annotations.reader'
             - '@event_dispatcher'
             - '@file_locator'
-            - '%api_sandbox.response.force'
+            - %bpa_apisandbox.response.force%
 
-    bpa_sandbox.apidoc_listener:
-        class: 'Bpa\ApiSandboxBundle\EventListener\ApiDocListener'
+    bpa_apisandbox.apidoc_listener:
+        class: %bpa_apisandbox_apidoc_listener_class%
         tags:
             - { name: 'kernel.event_listener', event: 'annotations.loaded', method: 'onAnnotationsLoaded' }
+
+    bpa_apisandbox.example_generator:
+        class: %bpa_apisandbox_example_generator_class%
+        arguments:
+            - '@twig'
+        tags:
+            - { name: nelmio_api_doc.extractor.handler }

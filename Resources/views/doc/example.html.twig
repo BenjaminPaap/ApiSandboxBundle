@@ -1,0 +1,26 @@
+##### Example
+
+```bash
+$ curl --header "Authorization: Bearer {token}" \
+--header "Accept: application/json" \
+{% if route.methods and route.methods[0] != 'GET' %}
+    --request {{ route.methods[0] }} \
+{% endif %}
+{{ route.path }}
+```
+
+###### Response
+
+```http
+HTTP/1.1 {{ response.statusCode }} {{ codes[response.statusCode] }}
+{% for header in response.headers -%}
+    {{ header.name }}: {{ header.value }}{{ constant('PHP_EOL') -}}
+{% endfor %}
+```
+{% if response.content is not empty -%}
+    ```
+    {%- if response.type == constant('TYPE_JSON', response) %}json{% else %}xml{% endif %}
+    {{- constant('PHP_EOL') -}}
+    {% include response.content only -%}
+    ```
+{%- endif %}
