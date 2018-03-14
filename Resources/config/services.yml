@@ -2,6 +2,7 @@ services:
     bpa_sandbox.controller_listener:
         class: 'Bpa\ApiSandboxBundle\EventListener\SandboxControllerListener'
         arguments:
+            - '%bpa_apisandbox.enabled%'
             - '@bpa_sandbox.controller_service'
             - '@request_stack'
         tags:

@@ -20,7 +20,8 @@ class ApiSandboxExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter('bpa_apisandbox.response.force', $config['response']['force']);
+        $container->setParameter('bpa_apisandbox.response.force', $config['force_response']);
+        $container->setParameter('bpa_apisandbox.enabled', $config['enabled']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

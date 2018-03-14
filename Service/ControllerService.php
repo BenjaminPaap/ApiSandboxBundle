@@ -6,6 +6,7 @@ use Bpa\ApiSandboxBundle\Annotation\SandboxRequest;
 use Bpa\ApiSandboxBundle\Annotation\SandboxResponse;
 use Bpa\ApiSandboxBundle\Event\AnnotationEvent;
 use Bpa\ApiSandboxBundle\Event\ApiSandboxEvents;
+use Bpa\ApiSandboxBundle\Event\ResponseMatchEvent;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -162,7 +163,7 @@ class ControllerService
 
             if ($parameter->isRequired() && null === $value) {
                 throw new HttpException(
-                    Response::HTTP_INTERNAL_SERVER_ERROR,
+                    Response::HTTP_BAD_REQUEST,
                     sprintf('Parameter "%s" is missing.', $parameter->getName())
                 );
             }
@@ -173,10 +174,10 @@ class ControllerService
                 }
             }
 
-            if (null !== $format = $parameter->getFormat() && null !== $value) {
+            if ((null !== $format = $parameter->getFormat()) && null !== $value) {
                 if (!preg_match('@'.$format.'@', $value)) {
                     throw new HttpException(
-                        Response::HTTP_INTERNAL_SERVER_ERROR,
+                        Response::HTTP_BAD_REQUEST,
                         sprintf(
                             'Value "%s" for parameter "%s" does not match format "%s"',
                             $value,
@@ -186,8 +187,10 @@ class ControllerService
                     );
                 }
             }
-
         }
+
+        $event = new ResponseMatchEvent($request, $response);
+        $this->dispatcher->dispatch(ApiSandboxEvents::RESPONSE_MATCH, $event);
 
         return true;
     }

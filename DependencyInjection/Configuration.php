@@ -20,11 +20,8 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->arrayNode('response')
-                    ->children()
-                        ->booleanNode('force')->defaultFalse()->end()
-                    ->end()
-                ->end()
+                ->scalarNode('force_response')->defaultFalse()->end()
+                ->scalarNode('enabled')->defaultFalse()->end()
             ->end();
 
         return $treeBuilder;

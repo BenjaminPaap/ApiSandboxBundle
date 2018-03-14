@@ -7,5 +7,13 @@ namespace Bpa\ApiSandboxBundle\Event;
  */
 final class ApiSandboxEvents
 {
-    const ANNOTATIONS_LOADED = 'annotations.loaded';
+    /**
+     * Fires after the annotations were loaded
+     */
+    const ANNOTATIONS_LOADED = 'api.sandbox.annotations.loaded';
+
+    /**
+     * Fires when a matching response is found to further check the response in custom integrations
+     */
+    const RESPONSE_MATCH = 'api.sandbox.response.match';
 }

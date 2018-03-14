@@ -16,12 +16,19 @@ class SandboxControllerListener
     private $service;
 
     /**
+     * @var boolean
+     */
+    private $enabled;
+
+    /**
      * SandboxControllerListener constructor.
      *
+     * @param boolean           $enabled
      * @param ControllerService $service
      */
-    public function __construct(ControllerService $service)
+    public function __construct($enabled, ControllerService $service)
     {
+        $this->enabled = $enabled;
         $this->service = $service;
     }
 
@@ -32,8 +39,10 @@ class SandboxControllerListener
     {
         list($controller, $method) = $event->getController();
 
-        $controller = $this->service->getSandboxController($controller, $method);
+        if ($this->enabled) {
+            $controller = $this->service->getSandboxController($controller, $method);
 
-        $event->setController($controller);
+            $event->setController($controller);
+        }
     }
 }
