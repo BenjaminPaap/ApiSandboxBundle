@@ -18,7 +18,7 @@ Just add the following lines to your **composer.json** file and run `composer.ph
 ```json
 {
    "require": {
-        "bpa/api-sandbox-bundle": "~0.1"
+        "bpa/api-sandbox-bundle": "dev-master"
     }
 }
 ```
