@@ -8,5 +8,10 @@
             "email": "benjamin.paap@gmail.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Bpa\\ApiSandboxBundle\\": ""
+        }
+    }
 }
