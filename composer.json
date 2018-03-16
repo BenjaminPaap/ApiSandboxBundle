@@ -2,6 +2,7 @@
     "name": "bpa/api-sandbox-bundle",
     "description": "Symfony Bundle for easy creation of API Sandboxes and integration with NelmioApiDocBundle",
     "type": "library",
+    "license": "MIT",
     "authors": [
         {
             "name": "Benjamin Paap",
