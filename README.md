@@ -8,7 +8,7 @@ requests automatically which will show in the documentation.
 
 ## Requirements
 
-ApiSandboxBundle required php >= 5.5 and symfony >= 2.7.
+ApiSandboxBundle requires php >= 5.5 and symfony >= 2.7.
 
 ## Installation
 
